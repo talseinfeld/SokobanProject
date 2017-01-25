@@ -3,7 +3,6 @@ package controller.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketTimeoutException;
 
 /**
  * 
@@ -29,38 +28,31 @@ public class MySokobanServer implements Server {
 		stop = false;
 	}
 
-	private void runServer() throws IOException {
-		
-		ServerSocket server;
-		server = new ServerSocket(this.port, 1);
-		server.setSoTimeout(1000);
-		
+	private void runServer() throws Exception {
+		ServerSocket server=new ServerSocket(port, 1);
+		System.out.println("Server is alive and listenig.");
+		server.setSoTimeout(10000);
 		while(!stop){
 			try{
-				Socket aClient=server.accept(); //blocking call
-				new Thread(new Runnable() { 
-					public void run() {
-						try {
-
-							ch.handleClient(aClient.getInputStream(), aClient.getOutputStream());
-							aClient.getInputStream().close();
-							aClient.getOutputStream().close();
-							aClient.close();
-						} 
-						catch (IOException e) {
-							System.out.println(e.getMessage());
-						}
-					}
-				}).start();
-
+				Socket aClient=server.accept(); // blocking call
+				System.out.println("User connected.");
+				ch.handleClient(aClient.getInputStream(), aClient.getOutputStream());
+				aClient.getInputStream().close();
+				aClient.getOutputStream().close();
+				aClient.close();
 			}
-			catch(SocketTimeoutException e) {
-				if(!(e.getMessage().matches("Accept timed out")))
-					e.printStackTrace();
-				//System.out.println(e.getMessage());
+			catch (IOException e) {
+				System.out.println("MySokobanServer: "+e.getMessage());
 			}
 		}
-		server.close(); 
+		try {
+			System.out.println("Server is shutting down...");
+			server.close();
+			System.out.println("Server is offline.");
+		}
+		catch (Exception e) {
+			System.out.println("Error in closing the server: "+e.getMessage());
+		}
 	}
 
 	@Override
@@ -71,7 +63,7 @@ public class MySokobanServer implements Server {
 					runServer();
 				}
 				catch (Exception e) {
-					System.out.println(e.getMessage());
+					System.out.println("Server thread closed.");
 				}
 			}
 		}).start();

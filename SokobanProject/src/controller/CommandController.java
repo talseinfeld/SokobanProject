@@ -1,6 +1,5 @@
 package controller;
 
-import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -14,33 +13,36 @@ public class CommandController {
 	
 	public CommandController() {
 		this.cQueue = new ArrayBlockingQueue<Command>(10);
-		
 	}
 	
-	public void insertCommand(Command command) throws InterruptedException {
-		
-		this.cQueue.put(command);
+	public void insertCommand(Command command)  {
+		try {
+			this.cQueue.put(command);
+		}
+		catch (InterruptedException e) {
+			System.out.println(e.getMessage());
+		}
 	}
-	
+
 	public void start() {
-		
 		Thread thread = new Thread(new Runnable() {
-			
+			@Override
 			public void run() {
-				while(!isStopped) {
+				while (!isStopped) {
 					try {
-						Command c = cQueue.poll(5, TimeUnit.SECONDS);
-						if (c!=null)
-							c.execute();
-					} catch (InterruptedException | IOException e) {
-						System.out.println(e.getMessage());
+						Command cmd = cQueue.poll(1, TimeUnit.SECONDS);
+						if (cmd != null)
+							cmd.execute();
+					} catch (Exception e) {
+						System.out.println("CommandController exception: "+e.getMessage());
 					}
-				}				
+				}
+				
 			}
 		});
 		thread.start();
 	}
-	
+
 	public void stop() {
 		this.isStopped = true;
 	}

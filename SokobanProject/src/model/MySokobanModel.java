@@ -11,9 +11,7 @@ public class MySokobanModel extends Observable implements Model {
 
 	private Level level;
 	private Policy policy;
-	
-	public MySokobanModel() {}
-	
+		
 	public MySokobanModel(Policy policy) {
 		
 		this.policy = policy;
@@ -45,11 +43,12 @@ public class MySokobanModel extends Observable implements Model {
 	@Override
 	public void setLevel(Level level) {
 		this.level = level;
-		/*if (this.isWon()) {
+		//Checking if user loaded a level that is already won
+		if (this.isWon()) {
 			LinkedList<String> params = new LinkedList<String>();
 			params.add("win");
 			this.notifyObservers(params);
-		}*/
+		}
 		LinkedList<String> arg = new LinkedList<String>();
 		arg.add("display");
 		this.setChanged();

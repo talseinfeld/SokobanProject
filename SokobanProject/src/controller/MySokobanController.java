@@ -44,18 +44,17 @@ public class MySokobanController implements Controller {
 		this.setHashKeys();
 		this.cc = new CommandController();
 		this.cc.start();
-		startTheServer();
 		
 	}
 	protected void setHashKeys() {
 		
 		this.commands = new HashMap<String, Command>();
-		this.commands.put("move", new MoveCommand(this.model));
-		this.commands.put("display", new DisplayCommand(this.model,this.view));
-		this.commands.put("load", new LoadCommand(this.model));
-		this.commands.put("save", new SaveCommand(this.model));
+		this.commands.put("move", new MoveCommand(this.model, this.view));
+		this.commands.put("display", new DisplayCommand(this.model, this.view));
+		this.commands.put("load", new LoadCommand(this.model, this.view));
+		this.commands.put("save", new SaveCommand(this.model, this.view));
 		this.commands.put("exit", new SafeExitCommand(controller));
-		this.commands.put("win", new WinCommand(this.view));
+		this.commands.put("win", new WinCommand(this.model, this.view));
 	}
 	
 	@Override
@@ -64,7 +63,6 @@ public class MySokobanController implements Controller {
 	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		
 		@SuppressWarnings("unchecked")
 		LinkedList<String> params = (LinkedList<String>) arg1;
 		String commandKey = params.removeFirst();
@@ -74,11 +72,7 @@ public class MySokobanController implements Controller {
 			return;
 		}
 		c.setParams(params);
-		try {
-			cc.insertCommand(c);
-		} catch (InterruptedException e) {
-			System.out.println(e.getMessage());
-		}
+		cc.insertCommand(c);
 	}
 	@Override
 	public void startTheServer() {

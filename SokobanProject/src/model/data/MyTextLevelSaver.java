@@ -15,7 +15,7 @@ public class MyTextLevelSaver implements LevelSaver {
 		if (level == null || level.getSquares() == null)
 			throw (new IOException("MyTextLevelSaver error: Couldn't save level - Empty level. Exisiting."));
 		//TODO - check if can be changed
-		PrintWriter writer = new PrintWriter(new BufferedWriter(new BufferedWriter(new OutputStreamWriter(out))));
+		PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(out)));
 		for (ArrayList<Square> squaresList : level.getSquares()) {
 			for (Square square: squaresList)
 			{

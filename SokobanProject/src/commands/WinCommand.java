@@ -1,21 +1,23 @@
 package commands;
 
-import java.io.IOException;
-
+import model.Model;
 import view.View;
-
+/**
+ * 
+ * @author Tal Sheinfeld
+ * Notifying the client if the level had been won
+ *
+ */
 public class WinCommand extends SokobanCommand implements Command {
 	
-	public WinCommand(View view) {
-		
+	public WinCommand(Model model, View view) {
+		this.model = model;
 		this.view = view;
-				
 	}
 	@Override
-	public void execute() throws IOException {
-		
+	public void execute() throws Exception {
+		view.displayLevel(model.getCurrentLevel());
 		view.displayWin();
-
 	}
 
 }

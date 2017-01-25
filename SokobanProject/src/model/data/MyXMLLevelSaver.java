@@ -13,6 +13,5 @@ public class MyXMLLevelSaver implements LevelSaver {
 		XMLEncoder e = new XMLEncoder(out);
 		e.writeObject(level);
 		e.close();
-		System.out.println("Level saved as XML file successfully");
 	}
 }

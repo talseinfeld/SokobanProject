@@ -13,7 +13,6 @@ public class MyObjectLevelSaver implements LevelSaver {
 		ObjectOutputStream writer = new ObjectOutputStream(out);
 		writer.writeObject(level);
 		writer.close();
-		System.out.println("Level saved as object succesfully.");
 	}
 
 }

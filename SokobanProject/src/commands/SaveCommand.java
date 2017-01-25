@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import model.Model;
+import view.View;
 /**
  * This class will provide the actual Saver for the file requested in O(1) time complexity,
  * using a Factory design pattern.
@@ -12,22 +13,22 @@ import model.Model;
  */
 public class SaveCommand extends SaveLoadFactory {
 	
-	public SaveCommand(Model model) {
+	public SaveCommand(Model model, View view) {
+		
 		this.model = model;
+		this.view = view;
 	}
 
 	//saves a level using the file extension from the file path given by the user.
 	@Override
-	public void execute() throws IOException {
+	public void execute() throws Exception {
+		//Throwing any exception we might get to to the main class so we can print the error to the client
+		if (this.params.isEmpty())
+			this.view.displayError("SaveCommand error: You didn't provide a file path, i.e: C:\\Levels\\myLevel.xml");
 		this.filePath = this.params.getFirst();
 		this.setFileExtension();
 		if (!extSavers.containsKey(fileExtension))
-			throw new IOException("SaveCommand error: Please provide a valid file extension.");
-		try {
-			extSavers.get(fileExtension).saveLevel(this.model.getCurrentLevel(), new FileOutputStream(filePath));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			this.view.displayError("SaveCommand error: Please provied a file extension from the following: 'txt', 'obj', 'xml'.");
+		extSavers.get(fileExtension).saveLevel(this.model.getCurrentLevel(), new FileOutputStream(filePath));
 	}
-
 }

@@ -1,12 +1,5 @@
 package view;
 
-import java.io.IOException;
-import java.util.Locale;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
-
-import commands.Command;
-import model.data.Level;
 /**
  * 
  * Our Command Line Interface:
@@ -16,7 +9,7 @@ import model.data.Level;
  */
 public class CLI { 
 	
-	
+	/*
 	private Command command = null;
 	private Level level = new Level();
 	private String[] commandGiven;
@@ -114,7 +107,6 @@ public class CLI {
 			break; 
 		}
 
-
 	}
 	//Printing a help menu to the user
 	public void help() {
@@ -131,7 +123,7 @@ public class CLI {
 		System.out.println("|>Help (Will bring up this menu)  |");
 		System.out.println("==================================");
 	}
-	//********Setters&Getters********//
+
 	public Command getCommand() {
 		return command;
 	}
@@ -155,5 +147,5 @@ public class CLI {
 	public void setCommandGiven(String[] commandGiven) {
 		this.commandGiven = commandGiven;
 	}
-	
+*/	
 }
