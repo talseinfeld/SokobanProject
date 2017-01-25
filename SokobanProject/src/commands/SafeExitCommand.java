@@ -2,14 +2,21 @@ package commands;
 
 import java.io.IOException;
 
-public class ExitCommand implements Command {
-	private Exit exitor = null;
-	public ExitCommand(Exit exitor) {
-		this.exitor = exitor;
+import controller.Controller;
+
+public class SafeExitCommand extends SokobanCommand {
+	private Controller c;
+	
+	public SafeExitCommand(Controller c) {
+		this.c = c;
 	}
 	@Override
 	public void execute() throws IOException {
-		exitor.exit();
-
+		if(c.getServer()!=null) {
+			c.getServer().getClientHandler().stop();
+			c.stopTheServer();
+		}
+		c.getCommandController().stop();
+		
 	}
 }

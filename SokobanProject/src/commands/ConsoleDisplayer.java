@@ -3,8 +3,8 @@ package commands;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import level_objects.Square;
-import levels.Level;
+import model.data.Level;
+import model.data.Square;
 /**
  * 
  * Printing the current level to the console using ASCII to represent the game objects.

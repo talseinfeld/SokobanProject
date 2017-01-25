@@ -1,6 +1,7 @@
 package commands;
 
 import java.io.IOException;
+import java.util.LinkedList;
 /**
  * 
  * I've used Strategy design pattern in all of the ConcreteCommands, so later
@@ -10,4 +11,5 @@ import java.io.IOException;
  */
 public interface Command {
 	public void execute() throws IOException;
+	public void setParams(LinkedList<String> params);
 }

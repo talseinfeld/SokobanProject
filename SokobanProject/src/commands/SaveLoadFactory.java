@@ -2,7 +2,14 @@ package commands;
 
 import java.util.HashMap;
 
-import levels.*;
+import model.data.LevelLoader;
+import model.data.LevelSaver;
+import model.data.MyObjectLevelLoader;
+import model.data.MyObjectLevelSaver;
+import model.data.MyTextLevelLoader;
+import model.data.MyTextLevelSaver;
+import model.data.MyXMLLevelLoader;
+import model.data.MyXMLLevelSaver;
 /**
  * 
  * I've used this class in order not to write duplicate code in LoadCommand & SaveCommand.
@@ -10,20 +17,17 @@ import levels.*;
  * with it's given signature (execute());
  *
  */
-public abstract class IOFactory implements Command {
+public abstract class SaveLoadFactory extends SokobanCommand {
 
-	protected Level level= new Level();
 	protected String filePath;
 	protected String fileExtension;
 	protected HashMap<String, LevelLoader> extLoaders = null;
 	protected HashMap<String, LevelSaver> extSavers = null;
-	public IOFactory () {}
+	
 	
 	//Initialize the file path and it's extension
-	public IOFactory(String filePath)
+	public SaveLoadFactory()
 	{
-		this.filePath = filePath;
-		setFileExtension();
 		setHashKeys();
 	}	
 	public void setHashKeys(){
@@ -37,6 +41,7 @@ public abstract class IOFactory implements Command {
 		extSavers.put("obj", new MyObjectLevelSaver());
 		extSavers.put("xml", new MyXMLLevelSaver());
 	}
+	//===========Setters&Getters===========//
 	public String getFilePath() {
 		return filePath;
 	}
@@ -46,6 +51,8 @@ public abstract class IOFactory implements Command {
 	public String getFileExtension() {
 		return fileExtension;
 	}
+	//Setting the file extension according to the full path given
+	//ASSUMING: filepath will be like: C:/Documents/SomeLevel.extension
 	public void setFileExtension() {
 
 		int c = filePath.indexOf('.',0);
@@ -62,12 +69,6 @@ public abstract class IOFactory implements Command {
 	}
 	public void setExtSavers(HashMap<String, LevelSaver> extSavers) {
 		this.extSavers = extSavers;
-	}
-	public Level getLevel() {
-		return level;
-	}
-	public void setLevel(Level level) {
-		this.level = level;
 	}
 	public void setFileExtension(String fileExtension) {
 		this.fileExtension = fileExtension;

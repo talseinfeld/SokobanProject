@@ -1,9 +1,6 @@
-package levels;
+package model.data;
 
 import java.awt.Point;
-import level_objects.*;
-import level_objects.Character;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

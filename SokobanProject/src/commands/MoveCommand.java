@@ -2,27 +2,22 @@ package commands;
 
 import java.io.IOException;
 
-import levels.Level;
-import policies.Direction;
-import policies.Policy;
+import common.Direction;
+import model.Model;
 
-public class MoveCommand implements Command {
-	private Direction direction = null;
-	private Policy policy = null;
-	private Level level = new Level();
+public class MoveCommand extends SokobanCommand {
+	
 	public MoveCommand() {}
 	
-	public MoveCommand(Level level, Policy policy, Direction direction) {
-		
-		this.level.setSquares(level.getSquares());
-		this.level.setCharacterSquare(level.getCharacterSquare());
-		this.policy = policy;
-		this.direction = direction;
+	public MoveCommand(Model model) {
+	
+		this.model = model;
 	}
 	@Override
 	public void execute() throws IOException {
-		policy.move(this.level, direction);
-
+		String ways = this.params.getFirst().toUpperCase();
+		if (ways.equals("UP") ||ways.equals("DOWN") ||ways.equals("LEFT") ||ways.equals("RIGHT"))
+			this.model.move(Direction.valueOf(ways));
 	}
 
 }

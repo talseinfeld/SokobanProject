@@ -1,4 +1,4 @@
-package level_objects;
+package model.data;
 
 import java.io.Serializable;
 

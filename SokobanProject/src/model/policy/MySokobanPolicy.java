@@ -1,9 +1,12 @@
-package policies;
+package model.policy;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
-import level_objects.Box;
-import levels.Level;
+import common.Direction;
+import model.data.Box;
+import model.data.GoalSquare;
+import model.data.Level;
 /** 
  * Our Sokoban policy class. This class is defining our game's rules; 
  * In this class, we will give a specific order to Level class whether to move our player
@@ -51,6 +54,7 @@ public class MySokobanPolicy implements Policy {
 		if (level.getSquareAtPoint(to).getGo() == null) {
 			level.moveToSquare(from, to);
 			level.setCharacterSquareAtPoint(to);
+			level.incStepsCounter(1);
 		}
 		//Checking if the Square in the given direction has Box in it
 		if (level.getSquareAtPoint(to).getGo().toString() == new Box().toString()) {
@@ -65,9 +69,21 @@ public class MySokobanPolicy implements Policy {
 				//Then we move the box we encountered first
 				level.moveToSquare(from, to);
 				level.setCharacterSquareAtPoint(to);
+				level.incStepsCounter(1);
 			}
 		}
 			
+	}
+
+	//TODO - think how to improve time complexity less then O(n) {n=goalSquares}
+	@Override
+	public Boolean isWon(Level level) {
+		ArrayList<GoalSquare> goalSquares = level.getGoalSquares();
+		for(GoalSquare gs : goalSquares) {
+			if (gs.getGo() == null || gs.getGo().toString()!=new Box().toString())
+				return false;
+		}
+		return true;
 	}
 
 }

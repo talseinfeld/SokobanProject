@@ -1,4 +1,4 @@
-package level_objects;
+package model.data;
 
 import java.awt.Point;
 import java.io.Serializable;

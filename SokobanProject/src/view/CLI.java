@@ -1,13 +1,12 @@
-package commands;
+package view;
 
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-import levels.Level;
-import policies.Direction;
-import policies.MySokobanPolicy;
+import commands.Command;
+import model.data.Level;
 /**
  * 
  * Our Command Line Interface:
@@ -15,13 +14,13 @@ import policies.MySokobanPolicy;
  * We assume the user will use a keyboard to type a desired textual command from the set:
  * load or save followed by the file path, move {up,down,left,right}, display, exit.
  */
-public class CLI {
+public class CLI { 
 	
 	
 	private Command command = null;
 	private Level level = new Level();
 	private String[] commandGiven;
-	private String filePath;
+	//private String filePath;
 
 	
 	public CLI() {
@@ -46,8 +45,8 @@ public class CLI {
 		this.commandGiven = args.split(" ");
 		this.commandGiven[0] = this.commandGiven[0].toLowerCase(Locale.ROOT);
 		try {
-		if (this.commandGiven[0].equals("load") || this.commandGiven[0].equals("save"))
-			this.filePath = this.commandGiven[1];
+		//if (this.commandGiven[0].equals("load") || this.commandGiven[0].equals("save"))
+	//		this.filePath = this.commandGiven[1];
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -55,7 +54,7 @@ public class CLI {
 		switch (this.commandGiven[0]) {
 		
 		case "display":
-			this.command = new DisplayCommand(this.level, new ConsoleDisplayer());
+			//this.command = new DisplayCommand(this.level, new ConsoleDisplayer());
 			this.command.execute();
 			break;
 		case "exit":
@@ -64,21 +63,17 @@ public class CLI {
 				System.out.print(".");
 				TimeUnit.SECONDS.sleep(i);
 			}
-			this.command = new ExitCommand(new ConsoleExitor());
+			//this.command = new SafeExitCommand(new ConsoleExitor());
 			this.command.execute();
 			break;
 		case "move":
 			try {
 				this.commandGiven[1]=this.commandGiven[1].toUpperCase();
-				this.command = new MoveCommand(this.level, new MySokobanPolicy(), Direction.valueOf(this.commandGiven[1]));
+				//this.command = new MoveCommand(this.level, new MySokobanPolicy(), Direction.valueOf(this.commandGiven[1]));
 				this.command.execute();
-				this.command = new DisplayCommand(this.level, new ConsoleDisplayer());
+				//showing level after movement
+				//this.command = new DisplayCommand(this.level, new ConsoleDisplayer());
 				this.command.execute();
-				this.level.incStepsCounter();
-				if (this.level.isWin())
-				{
-					System.out.println("You've Won!");
-				}
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -87,13 +82,13 @@ public class CLI {
 				break;	
 		case "load":
 			try {
-				this.command = new LoadCommand(this.filePath);
+				//this.command = new LoadCommand(this.filePath);
 				this.command.execute();
-				this.level = ((LoadCommand) this.command).getLevel();
-				if (this.level.isWin())
-				{
-					System.out.println("You've Won!");
-				}
+			//	this.level = ((LoadCommand) this.command).getLevel();
+				//if (this.level.isWin())
+				//{
+					//System.out.println("You've Won!");
+				//}
 			} 
 			catch (Exception e) {
 				e.printStackTrace();
@@ -101,8 +96,8 @@ public class CLI {
 			break;
 		case "save":
 			try {
-			this.command = new SaveCommand(this.filePath);
-			((SaveCommand) (this.command)).setLevel(this.level);
+			//this.command = new SaveCommand(this.filePath);
+			//((SaveCommand) (this.command)).setLevel(this.level);
 			this.command.execute();
 			}
 			catch (Exception e) {
@@ -160,4 +155,5 @@ public class CLI {
 	public void setCommandGiven(String[] commandGiven) {
 		this.commandGiven = commandGiven;
 	}
+	
 }

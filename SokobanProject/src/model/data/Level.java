@@ -1,13 +1,8 @@
-package levels;
+package model.data;
 
 import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import level_objects.Box;
-import level_objects.Character;
-import level_objects.GoalSquare;
-import level_objects.Square;
 
 public class Level implements Serializable {
 	
@@ -37,7 +32,7 @@ public class Level implements Serializable {
 		initLevel();
 	}
 	public Level() {//default c'tor
-		
+		initLevel();
 	}
 
 	//moving a game object from a position to another position
@@ -46,15 +41,15 @@ public class Level implements Serializable {
 		this.squares.get(to.y).get(to.x).setGo(this.squares.get(from.y).get(from.x).getGo());
 		this.squares.get(to.y).get(to.x).setPosition(to);
 		this.squares.get(from.y).get(from.x).setGo(null);
-		//TODO - check if getGo() == Character or Box() and to initiate their memeber
+		
 		
 	}
 
 	
-	/*going through the entire level's "Squares" and
+	/*  going through the entire level's "Squares" and
 	 *  targeting all the important objects for later use.
-	 *  ATM: Only checks where the Player is*/
-	public void initLevel() {
+	 *  ATM: checks where all the goal squares are and where is the player */
+	private void initLevel() {
 		for (int y=0;y<this.squares.size();++y) {
 			if (y > this.maxY)
 				this.maxY = y;
@@ -68,13 +63,14 @@ public class Level implements Serializable {
 			}
 		}
 	}
+	/* UNDER MySokobanPolicy responsibility to check - Took this method to Policy
 	public Boolean isWin() {
 		for(GoalSquare gs : this.goalSquares) {
 			if (gs.getGo() == null || gs.getGo().toString()!=new Box().toString())
 				return false;
 		}
 		return true;
-	}
+	} */
 	//*****Setters & Getters********//
 	public ArrayList<ArrayList<Square>> getSquares() {
 		return this.squares;
@@ -132,8 +128,8 @@ public class Level implements Serializable {
 	public void setGoalSquares(ArrayList<GoalSquare> goalSquares) {
 		this.goalSquares = goalSquares;
 	}
-	public void incStepsCounter() {
-		this.stepsCounter++;
+	public void incStepsCounter(int steps) {
+		this.stepsCounter+=steps;
 	}
 
 	

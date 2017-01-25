@@ -2,25 +2,23 @@ package commands;
 
 import java.io.IOException;
 
-import levels.Level;
+import model.Model;
+import view.View;
 
-public class DisplayCommand implements Command {
-	private Level level = new Level();
-	private Displayer displayer = null;
-	public DisplayCommand() {}
-	public DisplayCommand(Level level, Displayer displayer) {
+public class DisplayCommand extends SokobanCommand implements Command {
+	
+	public DisplayCommand() {}//default C'tor
+	
+	public DisplayCommand(Model m, View v) {
 		
-		this.displayer = displayer;
-		this.level = level;
+		this.model = m;
+		this.view = v;
+
 	}
 	@Override
 	public void execute() throws IOException {
-		this.displayer.display(this.level);		
+		
+		this.view.displayLevel(this.model.getCurrentLevel());
 	}
-	public Level getLevel() {
-		return level;
-	}
-	public void setLevel(Level level) {
-		this.level = level;
-	}	
+
 }

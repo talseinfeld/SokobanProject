@@ -1,4 +1,4 @@
-package levels;
+package model.data;
 
 import java.io.InputStream;
 /**<h3><font color="blue">Answers to the Serialization questions:</font></h3></br>
