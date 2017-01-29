@@ -48,10 +48,20 @@ public class MySokobanLevelDisplayer extends Canvas {
 					case "@":
 						gc.drawImage(box, x*w, y*h, w, h);
 						break;
+					case "*":
+						/*I've changed toString method in goalSquare to show the char '*'
+						if there is a Box obj on the goalSquare*/
+						gc.drawImage(box, x*w, y*h, w, h);
+						break;
 					case " ":
 						gc.drawImage(floor, x*w, y*h, w, h);
 						break;
 					case "A":
+						gc.drawImage(character, x*w, y*h, w, h);
+						break;
+					case "a":
+						/*I've changed toString method in goalSquare to show the char 'a'
+						if a character is standing on a goalSquare*/
 						gc.drawImage(character, x*w, y*h, w, h);
 						break;
 					case "o":

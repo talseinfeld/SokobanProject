@@ -78,7 +78,6 @@ public class MainWindowController extends Observable implements View, Initializa
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Open a Sokoban level file");
 		fc.setInitialDirectory(new File("./resources"));
-		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Level files (.txt .xml *.obj)","*.txt", "*.xml", "*.obj"));
 		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
 		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
 		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Object files (*.obj)", "*.obj"));
@@ -88,8 +87,8 @@ public class MainWindowController extends Observable implements View, Initializa
 			LinkedList<String> params = new LinkedList<String>();
 			params.add("load");
 			params.add(chosen.getPath());
-			timerCounter=0;
-			startTimer();
+			//timerCounter=0;
+			//startTimer();
 			//TODO - start music
 			this.setChanged();
 			notifyObservers(params);
@@ -100,9 +99,10 @@ public class MainWindowController extends Observable implements View, Initializa
 			FileChooser fc = new FileChooser();
 			fc.setTitle("Save a Sokoban level file");
 			fc.setInitialDirectory(new File("./resources"));
-			FileChooser.ExtensionFilter extFilters = new FileChooser.ExtensionFilter("XML files *.xml", "Text files *.txt", "Object files *.obj");
-			fc.getExtensionFilters().add(extFilters);
-			File chosen = fc.showOpenDialog(null);
+			fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt"));
+			fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML files (*.xml)", "*.xml"));
+			fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Object files (*.obj)", "*.obj"));
+			File chosen = fc.showSaveDialog(null);
 			if (chosen != null) {
 				LinkedList<String> params = new LinkedList<String>();
 				params.add("save");
@@ -138,6 +138,7 @@ public class MainWindowController extends Observable implements View, Initializa
 		//sending the level to MySokobanLevelDisplayer to initialize and then draw
 		try {
 			levelDisplayer.setLevel(level);
+			this.level=level;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
