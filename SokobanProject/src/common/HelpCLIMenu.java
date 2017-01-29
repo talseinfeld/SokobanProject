@@ -2,6 +2,7 @@ package common;
 
 public class HelpCLIMenu {
 
+	//TODO - send to client in server
 	public void help() {
 		System.out.println("==================================");
 		System.out.println("|      Sokoban Console Menu       |");

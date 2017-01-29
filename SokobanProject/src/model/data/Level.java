@@ -50,12 +50,11 @@ public class Level implements Serializable {
 	 *  targeting all the important objects for later use.
 	 *  ATM: checks where all the goal squares are and where is the player */
 	private void initLevel() {
-		for (int y=0;y<this.squares.size();++y) {
-			if (y > this.maxY)
-				this.maxY = y;
-			for (int x=0;x<this.squares.get(y).size();++x) {
-				if (x > this.maxX)
-					this.maxX = x;
+		this.maxY=this.squares.size();
+		for (int y=0;y<this.squares.size();y++) {
+			for (int x=0;x<this.squares.get(y).size();x++) {
+				if ((x+1) > this.maxX)
+					this.maxX = x+1;
 				if (this.squares.get(y).get(x).toString() == new Character().toString())
 					this.characterSquare = new Square(new Point(x,y), new Character());
 				if (this.squares.get(y).get(x).toString() == new GoalSquare().toString())

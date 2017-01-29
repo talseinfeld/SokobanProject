@@ -1,7 +1,6 @@
 package commands;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import model.Model;
 import view.View;
