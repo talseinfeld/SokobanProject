@@ -8,8 +8,9 @@ import commands.Command;
 
 public class CommandController {
 
+	private Thread thread;
 	private BlockingQueue<Command> cQueue;
-	private Boolean isStopped = false;
+	private volatile boolean stop = false;
 	
 	public CommandController() {
 		this.cQueue = new ArrayBlockingQueue<Command>(10);
@@ -25,25 +26,31 @@ public class CommandController {
 	}
 
 	public void start() {
-		Thread thread = new Thread(new Runnable() {
+		thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while (!isStopped) {
+				while (!stop) {
 					try {
 						Command cmd = cQueue.poll(1, TimeUnit.SECONDS);
 						if (cmd != null)
 							cmd.execute();
 					} catch (Exception e) {
-						System.out.println("CommandController exception: "+e.getMessage());
+						System.out.println(e.getMessage());
 					}
 				}
-				
+
 			}
 		});
 		thread.start();
 	}
 
 	public void stop() {
-		this.isStopped = true;
+		try{
+			this.stop = true;
+			thread.join();
+		}
+		catch (InterruptedException e) {
+			System.out.println("Command controller thread is closing...");
+		}
 	}
 }

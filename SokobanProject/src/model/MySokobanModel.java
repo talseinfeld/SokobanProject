@@ -25,20 +25,21 @@ public class MySokobanModel extends Observable implements Model {
 	
 	@Override
 	public void move(Direction direction) {
-		
-		LinkedList<String> params = new LinkedList<String>();
-		this.policy.move(this.level, direction);
-		this.setChanged();
-		//Checking if user won after each movement
-		if (this.isWon() == true) {
-			params.add("win");
-			this.notifyObservers(params);
+		if (this.level!=null) {
+			LinkedList<String> params = new LinkedList<String>();
+			this.policy.move(this.level, direction);
+			this.setChanged();
+			//Checking if user won after each movement
+			if (this.isWon() == true) {
+				params.add("win");
+				this.notifyObservers(params);
+			}
+			else {
+				params.add("display");
+				this.notifyObservers(params);
+			}
 		}
-		else {
-			params.add("display");
-			this.notifyObservers(params);
-		}
-		
+
 	}
 	@Override
 	public void setLevel(Level level) {

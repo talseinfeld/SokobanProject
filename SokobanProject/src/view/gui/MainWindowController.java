@@ -6,8 +6,6 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -18,24 +16,29 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import model.data.Level;
 import view.View;
-
+/**
+ * 
+ * @author Tal Sheinfeld
+ * Our GUI Controller. Working on Strategy design pattern principles.
+ *
+ */
 public class MainWindowController extends Observable implements View, Initializable {
 
 	private Level level;
-	private int timerCounter;
+	private MediaPlayer mPlayer;
 	
 	@FXML
 	MySokobanLevelDisplayer levelDisplayer;
-	@FXML
-	Text stepsCount;
-	@FXML
-	Text timer;
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		//added this method so when we start moving our agent, the focus will stay on the character always
 		levelDisplayer.focusedProperty().addListener(new ChangeListener<Boolean>()
 		  {
 		            public void changed(ObservableValue<? extends Boolean> ov, Boolean t, Boolean t1) 
@@ -49,9 +52,11 @@ public class MainWindowController extends Observable implements View, Initializa
 		                });                    
 		            }
 		        });
+		setMediaPlayer();
+		this.mPlayer.play();
 		levelDisplayer.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->levelDisplayer.requestFocus());
 		levelDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() {
-
+			//TODO - add the feature for clients to choose their own keys
 			@Override
 			public void handle(KeyEvent event) {
 				if(event.getCode()==KeyCode.UP)
@@ -66,14 +71,6 @@ public class MainWindowController extends Observable implements View, Initializa
 		});
 		
 	}
-	public void setGameObjectsPath() {
-		levelDisplayer.setWallFilename("./resources/Wall_Brown.png");
-		levelDisplayer.setCharacterFilename("./resources/Character4.png");
-		levelDisplayer.setBoxFilename("./resources/Crate_Brown.png");
-		levelDisplayer.setGoalSquareFilename("./resources/EndPoint_Red.png");
-		levelDisplayer.setFloorFilename("./resources/GroundGravel_Sand.png");
-		levelDisplayer.setWinFilename("./resources/win.jpg");
-	}
 	public void openFile() {
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Open a Sokoban level file");
@@ -83,13 +80,9 @@ public class MainWindowController extends Observable implements View, Initializa
 		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Object files (*.obj)", "*.obj"));
 		File chosen = fc.showOpenDialog(null);
 		if (chosen != null) {
-			//setGameObjectsPath();
 			LinkedList<String> params = new LinkedList<String>();
 			params.add("load");
 			params.add(chosen.getPath());
-			//timerCounter=0;
-			//startTimer();
-			//TODO - start music
 			this.setChanged();
 			notifyObservers(params);
 		}
@@ -107,24 +100,13 @@ public class MainWindowController extends Observable implements View, Initializa
 				LinkedList<String> params = new LinkedList<String>();
 				params.add("save");
 				params.add(chosen.getPath());
-				//TODO - stop music
 				setChanged();
 				notifyObservers(params);
 			}
 		}
 	}
-	public void startTimer() {
-		Timer t = new Timer();
-		t.scheduleAtFixedRate(new TimerTask() {
-			
-			@Override
-			public void run() {
-				timerCounter++;
-				timer.setText(String.valueOf(timerCounter));
-				
-			}
-		}, 0, 1000);
-	}
+	//TODO - add a working timer and a step counter for each level.
+
 	public void setMoveCommand(String direction) {
 		LinkedList<String> params = new LinkedList<String>();
 		String[] commandArr = direction.split(" ");
@@ -170,7 +152,15 @@ public class MainWindowController extends Observable implements View, Initializa
 		notifyObservers(params);
 		
 	}
-
-
-	
+	//TODO - take this hard coded Mp3 setter and put in the FXML; Fix SceneBuilder bug opening this MainWindow.fxml
+	public void setMediaPlayer() {
+		this.mPlayer = new MediaPlayer(new Media(new File("./resources/5yt.mp3").toURI().toString()));
+		this.mPlayer.setOnEndOfMedia(new Runnable() {
+			
+			@Override
+			public void run() {
+				mPlayer.seek(Duration.ZERO);			
+			}
+		});
+	}	
 }

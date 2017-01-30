@@ -23,26 +23,24 @@ public class MySokobanClientHandler extends Observable implements ClientHandler,
 
 	private BufferedReader serverInFromClient = null;
 	private PrintWriter serverOutToClient = null;
-	private boolean isStopped = false;
+	private boolean stop = false;
 	
 	public MySokobanClientHandler() {}
 	@Override
-	public void handleClient(InputStream inFromClient, OutputStream outToClient) throws Exception  {
+	public void handleClient(InputStream inFromClient, OutputStream outToClient) {
 		serverInFromClient = (new BufferedReader(new InputStreamReader(inFromClient)));
 		serverOutToClient= new PrintWriter(outToClient);
 		//writing the help menu to client
 		help();
-		while(!isStopped) {
+		while(!stop) {
+			try {
 				serverOutToClient.println("Enter command: ");
 				serverOutToClient.flush();
 				String[] commandArr = serverInFromClient.readLine().split(" ");
-				stringCmdToLowerCase(commandArr);
+				//stringCmdToLowerCase(commandArr);
 				LinkedList<String> params = new LinkedList<String>();
 				for (String s: commandArr) 
 					params.add(s);
-				//writing the help menu to client if requested
-				if (params.getFirst().equals("help"))
-					help();
 				//Checking if client wants to disconnect
 				if (params.getFirst().equals("exit")) {
 					serverOutToClient.write("bye");
@@ -54,12 +52,14 @@ public class MySokobanClientHandler extends Observable implements ClientHandler,
 					setChanged();
 					notifyObservers(params);
 				}
-		}
-		this.serverInFromClient.close();
-		this.serverOutToClient.close();
+			}
+			catch (Exception e) {
+				System.out.println("MySokobanClientHandler: Client disconnected.");
+			}
+		} 
 	}
 	//changing command given by user to lower case (not touching file path)
-	public void stringCmdToLowerCase(String[] cmd) {
+public void stringCmdToLowerCase(String[] cmd) {
 		if (cmd[0]!=null)
 			cmd[0].toLowerCase();
 		if (cmd[0].equals("move") && cmd[1]!=null)
@@ -69,36 +69,35 @@ public class MySokobanClientHandler extends Observable implements ClientHandler,
 	//TODO - change help menu to be a HelpCommand that gets an OutputStream to write to
 	public void help() {
 		if (serverOutToClient!=null) {
-			serverOutToClient.write("==================================");
+			serverOutToClient.println("==================================");
 			serverOutToClient.flush();
-			serverOutToClient.write("|      Sokoban Console Menu       |");
+			serverOutToClient.println("|      Sokoban Console Menu       |");
 			serverOutToClient.flush();
-			serverOutToClient.write("==================================");
+			serverOutToClient.println("==================================");
 			serverOutToClient.flush();
-			serverOutToClient.write("|            Options:             |");
+			serverOutToClient.println("|            Options:             |");
 			serverOutToClient.flush();
-			serverOutToClient.write("|>Load <file path>                |");
+			serverOutToClient.println("|>Load <file path>                |");
 			serverOutToClient.flush();
-			serverOutToClient.write("|   e.g: Load C:/level1.obj       |");
+			serverOutToClient.println("|   e.g: Load C:/level1.obj       |");
 			serverOutToClient.flush();
-			serverOutToClient.write("|>Save <file path>                |");
+			serverOutToClient.println("|>Save <file path>                |");
 			serverOutToClient.flush();
-			serverOutToClient.write("|   e.g: Save level.xml           |");
+			serverOutToClient.println("|   e.g: Save level.xml           |");
 			serverOutToClient.flush();
-			serverOutToClient.write("|>Display                         |");
+			serverOutToClient.println("|>Display                         |");
 			serverOutToClient.flush();
-			serverOutToClient.write("|>Exit                            |");
+			serverOutToClient.println("|>Exit                            |");
 			serverOutToClient.flush();
-			serverOutToClient.write("|>Help (Will bring up this menu)  |");
+			serverOutToClient.println("==================================");
 			serverOutToClient.flush();
-			serverOutToClient.write("==================================");
-			serverOutToClient.flush();
+			
 		}
 	}
 
 	@Override
 	public void stop() {
-		isStopped = true;		
+		stop = true;		
 	}
 
 	@Override

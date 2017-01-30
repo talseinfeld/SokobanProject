@@ -5,6 +5,6 @@ import java.io.OutputStream;
 
 public interface ClientHandler {
 
-	public void handleClient(InputStream inFromClient, OutputStream outToClient) throws Exception;
+	public void handleClient(InputStream inFromClient, OutputStream outToClient);
 	public void stop();
 }

@@ -1,6 +1,5 @@
 package controller.server;
 
-import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -17,6 +16,7 @@ import java.net.Socket;
  */
 public class MySokobanServer implements Server {
 
+	private Thread thread;
 	private int port;
 	private ClientHandler ch;
 	private volatile boolean stop;
@@ -29,48 +29,52 @@ public class MySokobanServer implements Server {
 	}
 
 	private void runServer() throws Exception {
+		//setting backlog to 1
 		ServerSocket server=new ServerSocket(port, 1);
 		System.out.println("Server is alive and listenig.");
 		server.setSoTimeout(10000);
-		while(!stop){
-			try{
+		while(!stop) {
+			try {
 				Socket aClient=server.accept(); // blocking call
 				System.out.println("User connected.");
 				ch.handleClient(aClient.getInputStream(), aClient.getOutputStream());
 				aClient.getInputStream().close();
 				aClient.getOutputStream().close();
 				aClient.close();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
-			catch (IOException e) {
-				System.out.println("MySokobanServer: "+e.getMessage());
+			try{
+				System.out.println("Server is shutting down...");
+				server.close();
+				System.out.println("Server is offline.");
+			} catch (Exception e) {
+				System.out.println("in server.close(): "+e.getMessage());
 			}
-		}
-		try {
-			System.out.println("Server is shutting down...");
-			server.close();
-			System.out.println("Server is offline.");
-		}
-		catch (Exception e) {
-			System.out.println("Error in closing the server: "+e.getMessage());
 		}
 	}
-
 	@Override
 	public void start() {
-		new Thread(new Runnable() {
+		thread = new Thread(new Runnable() {
 			public void run() {
-				try{
+				try {
 					runServer();
-				}
-				catch (Exception e) {
-					System.out.println("Server thread closed.");
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
 				}
 			}
-		}).start();
+		});
+		thread.start();
 	}
 	@Override
 	public void stop() {
+		try {
 		this.stop = true;
+		thread.join();
+		}
+		catch (InterruptedException e) {
+			System.out.println("Server thread is closing...");
+		}
 	}
 	@Override
 	public ClientHandler getClientHandler() {

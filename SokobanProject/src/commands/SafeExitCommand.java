@@ -11,12 +11,10 @@ public class SafeExitCommand extends SokobanCommand {
 	}
 	@Override
 	public void execute() throws Exception {
-		
 		if(c.getServer()!=null) {
 			c.getServer().getClientHandler().stop();
 			c.stopTheServer();
-		}
+		}		
 		c.getCommandController().stop();
-		
 	}
 }
