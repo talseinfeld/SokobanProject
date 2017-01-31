@@ -145,12 +145,11 @@ public class MainWindowController extends Observable implements View, Initializa
 
 	@Override
 	public void stop() {
-		Platform.exit();
 		setChanged();
 		LinkedList<String> params = new LinkedList<String>();
 		params.add("exit");
 		notifyObservers(params);
-		
+		Platform.exit();
 	}
 	//TODO - take this hard coded Mp3 setter and put in the FXML; Fix SceneBuilder bug opening this MainWindow.fxml
 	public void setMediaPlayer() {

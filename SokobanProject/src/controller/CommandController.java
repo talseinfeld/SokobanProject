@@ -45,12 +45,6 @@ public class CommandController {
 	}
 
 	public void stop() {
-		try{
-			this.stop = true;
-			thread.join();
-		}
-		catch (InterruptedException e) {
-			System.out.println("Command controller thread is closing...");
-		}
+		this.stop = true;
 	}
 }

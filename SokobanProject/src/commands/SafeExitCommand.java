@@ -16,5 +16,6 @@ public class SafeExitCommand extends SokobanCommand {
 			c.stopTheServer();
 		}		
 		c.getCommandController().stop();
+		System.exit(0);
 	}
 }

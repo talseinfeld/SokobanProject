@@ -68,13 +68,7 @@ public class MySokobanServer implements Server {
 	}
 	@Override
 	public void stop() {
-		try {
 		this.stop = true;
-		thread.join();
-		}
-		catch (InterruptedException e) {
-			System.out.println("Server thread is closing...");
-		}
 	}
 	@Override
 	public ClientHandler getClientHandler() {
