@@ -4,14 +4,14 @@ import java.io.FileInputStream;
 
 import model.Model;
 import view.View;
-
+/** @author Tal Sheinfeld
+ * This class will provide the actual Loader for the file requested in O(1) time complexity,
+ * using a Factory design pattern.
+ * With a given String from the user, the class will recognize the file extension and 
+ * will open an appropriate loader accordingly.
+ */
 public class LoadCommand extends SaveLoadFactory {
-	/** @author Tal Sheinfeld
-	 * This class will provide the actual Loader for the file requested in O(1) time complexity,
-	 * using a Factory design pattern.
-	 * With a given String from the user, the class will recognize the file extension and 
-	 * will open an appropriate loader accordingly.
-	 */
+	
 	public LoadCommand(Model model, View view) {
 		this.model = model;
 		this.view = view;

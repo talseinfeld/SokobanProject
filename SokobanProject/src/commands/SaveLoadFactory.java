@@ -12,7 +12,7 @@ import model.data.MyXMLLevelLoader;
 import model.data.MyXMLLevelSaver;
 /**
  * 
- * I've used this class in order not to write duplicate code in LoadCommand & SaveCommand.
+ * I've used this class in order not to write duplicate code in LoadCommand and SaveCommand.
  * This class has the Level member that will be initiated or saved later on, to implement execute
  * with it's given signature (execute());
  *
