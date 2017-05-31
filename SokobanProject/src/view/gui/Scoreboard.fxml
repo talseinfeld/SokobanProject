@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<SplitPane dividerPositions="0.21608040201005024" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="450.0" prefWidth="530.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.gui.ScoreboardController">
+	<items>
+		<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+			<children>
+				<TextField fx:id="usernameTextBox" layoutX="203.0" layoutY="14.0" />
+				<TextField fx:id="levelNameTextBox" layoutX="203.0" layoutY="42.0" />
+				<Label layoutX="113.0" layoutY="18.0" prefHeight="17.0" prefWidth="83.0" text="Username:" />
+				<Label layoutX="113.0" layoutY="46.0" prefHeight="17.0" prefWidth="72.0" text="Level name:" />
+				<Label layoutX="11.0" layoutY="31.0" prefHeight="17.0" prefWidth="72.0" text="Search by:" />
+				<Button layoutX="373.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchByUsername" text="Search" />
+				<Button layoutX="373.0" layoutY="42.0" mnemonicParsing="false" onAction="#searchByLevelName" text="Search" />
+			</children>
+		</AnchorPane>
+		<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+			<children>
+				<TableView fx:id="scoreboardTable" prefHeight="348.0" prefWidth="598.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+					<columns>
+                 		<TableColumn fx:id="idCol" prefWidth="50.0" text="ID" />
+						<TableColumn fx:id="levelNameCol" prefWidth="120.0" text="Level" />
+						<TableColumn fx:id="usernameCol" prefWidth="120.0" text="Username" />
+						<TableColumn fx:id="totalStepsCol" prefWidth="120.0" text="Steps" />
+						<TableColumn fx:id="finishTimeCol" prefWidth="120.0" text="Time" />
+					</columns>
+				</TableView>
+			</children>
+		</AnchorPane>
+	</items>
+</SplitPane>
