@@ -15,9 +15,9 @@ public class Level implements Serializable {
 	private ArrayList<GoalSquare> goalSquares = new ArrayList<>();
 	private Square characterSquare = new Square();
 	private String levelName;
-	private int currentScore = 0;
-	private int stepsCounter = 0;
+	private int stepsCounter, timeCounter;
 	private int maxY, maxX;
+	private boolean wonFlag = false;
 	
 	/*Container for all the objects this level has*/
 	
@@ -28,10 +28,12 @@ public class Level implements Serializable {
 	//Was made for MyTextLevelLoader class that returns ArrayList<ArrayList<Square>>
 	public Level(ArrayList<ArrayList<Square>> squares)
 	{
+		stepsCounter = 0; setTimeCounter(0);
 		setSquares(squares);
 		initLevel();
 	}
 	public Level() {//default c'tor
+		stepsCounter = 0; setTimeCounter(0);
 		initLevel();
 	}
 
@@ -41,8 +43,6 @@ public class Level implements Serializable {
 		this.squares.get(to.y).get(to.x).setGo(this.squares.get(from.y).get(from.x).getGo());
 		this.squares.get(to.y).get(to.x).setPosition(to);
 		this.squares.get(from.y).get(from.x).setGo(null);
-		
-		
 	}
 
 	
@@ -62,14 +62,7 @@ public class Level implements Serializable {
 			}
 		}
 	}
-	/* UNDER MySokobanPolicy responsibility to check - Took this method to Policy
-	public Boolean isWin() {
-		for(GoalSquare gs : this.goalSquares) {
-			if (gs.getGo() == null || gs.getGo().toString()!=new Box().toString())
-				return false;
-		}
-		return true;
-	} */
+
 	//*****Setters & Getters********//
 	public ArrayList<ArrayList<Square>> getSquares() {
 		return this.squares;
@@ -83,13 +76,7 @@ public class Level implements Serializable {
 	public void setLevelName(String levelName) {
 		this.levelName = levelName;
 	}
-	public Integer getCurrentScore() {
-		return currentScore;
-	}
-	public void setCurrentScore(Integer currentScore) {
-		this.currentScore = currentScore;
-	}
-	public int getStepCounter() {
+	int getStepCounter() {
 		return stepsCounter;
 	}
 	public void setStepCounter(int stepsCounter) {
@@ -127,9 +114,23 @@ public class Level implements Serializable {
 	public void setGoalSquares(ArrayList<GoalSquare> goalSquares) {
 		this.goalSquares = goalSquares;
 	}
+	public int getStepsCounter() {
+		return stepsCounter;
+	}
 	public void incStepsCounter(int steps) {
 		this.stepsCounter+=steps;
 	}
-
+	public boolean getWonFlag() {
+		return wonFlag;
+	}
+	public void setWonFlag(boolean wonFlag) {
+		this.wonFlag = wonFlag;
+	}
+	public int getTimeCounter() {
+		return timeCounter;
+	}
+	public void setTimeCounter(int timeCounter) {
+		this.timeCounter = timeCounter;
+	}
 	
 }

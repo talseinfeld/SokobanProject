@@ -10,6 +10,7 @@ import commands.LoadCommand;
 import commands.MoveCommand;
 import commands.SafeExitCommand;
 import commands.SaveCommand;
+import commands.SaveStatsToDbCommand;
 import commands.WinCommand;
 import controller.server.Server;
 import model.Model;
@@ -55,6 +56,7 @@ public class MySokobanController implements Controller {
 		this.commands.put("save", new SaveCommand(this.model, this.view));
 		this.commands.put("exit", new SafeExitCommand(controller));
 		this.commands.put("win", new WinCommand(this.model, this.view));
+		this.commands.put("username", new SaveStatsToDbCommand(this.model, this.view));
 	}
 	
 	@Override
@@ -68,7 +70,8 @@ public class MySokobanController implements Controller {
 		String commandKey = params.removeFirst();
 		Command c = commands.get(commandKey);
 		if (c == null) {
-			view.displayError("Command " + commandKey + " not found");
+			Exception e = new Exception("Command " + commandKey + " not found");
+			view.displayError(e);
 			return;
 		}
 		c.setParams(params);

@@ -19,8 +19,7 @@ public class MyTextLevelLoader implements LevelLoader {
 		squares.add(new ArrayList<Square>());
 		/*coordinates for the game*/
 		int y=0,x=0;
-		int c;//flag and a variable for casting
-		
+		int c;//flag and a variable for casting		
 		while ((c=reader.read()) != -1) //while it's not the end of the text
 		{
 			char ch = (char)c; //casting for previous 'c' mount in the loop
@@ -51,15 +50,10 @@ public class MyTextLevelLoader implements LevelLoader {
 				x=0;
 				squares.add(new ArrayList<Square>());
 				break;
-				
-				/*If someone entered a character that wasn't predefined in the text file*/
-			/*	default:
-					reader.close();
-					throw (new IOException("Couldn't read a predefined character in the text file. Exiting"));*/
+			default:
+				break;
 			}
 		}  
-		reader.close();
-		//returning the squares we have created here to Level's C'tor to create the level
 		return new Level(squares);
 		}
 	}

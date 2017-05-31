@@ -35,7 +35,7 @@ public class Run extends Application {
 				controller.startTheServer();
 			}
 			catch (Exception e){
-				ch.displayError("Main: "+e.getMessage());
+				ch.displayError(e);
 			}
 		}
 		else { 
@@ -52,14 +52,13 @@ public class Run extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
-			FXMLLoader fxl = new FXMLLoader();
-			BorderPane root = fxl.load(getClass().getResource("/view/gui/MainWindow.fxml").openStream());
+			FXMLLoader fxl = new FXMLLoader(getClass().getResource("/view/gui/MainWindow.fxml"));
+			BorderPane root = fxl.load();
 			MainWindowController mwc=fxl.getController();
 			MySokobanModel m=new MySokobanModel(new MySokobanPolicy());
 			Controller c=new MySokobanController(m, mwc);
 			m.addObserver(c);
 			mwc.addObserver(c);
-
 			Scene scene = new Scene(root,600,600);
 			scene.getStylesheets().add(getClass().getResource("/view/gui/application.css").toExternalForm());
 			primaryStage.setTitle("Sokoban");

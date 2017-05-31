@@ -17,13 +17,22 @@ public class MoveCommand extends SokobanCommand {
 	public void execute() throws Exception {
 
 		//Throwing any error to the client view
-		if(this.params.isEmpty()) 
-			this.view.displayError("MoveCommand error: Please provide a direction from the following: 'UP', 'DOWN', 'LEFT', 'RIGHT'.");
+		if(this.params.isEmpty()) {
+			Exception e = 
+					new Exception("MoveCommand error: Please provide a direction from the following: 'UP', 'DOWN', 'LEFT', 'RIGHT'.");
+			this.view.displayError(e);
+		}
+		if(this.model.isWon())
+			return;
 		else {
 			String direction = this.params.getFirst().toUpperCase(Locale.ROOT);
 			if(direction.equals("UP") || direction.equals("DOWN") || direction.equals("LEFT") || direction.equals("RIGHT"))
 				this.model.move(Direction.valueOf(direction)); 
-			else this.view.displayError("MoveCommand error: Please provide a direction from the following: 'up', 'down', 'left', 'right'.");
+			else {
+				Exception e = 
+						new Exception("MoveCommand error: Please provide a direction from the following: 'UP', 'DOWN', 'LEFT', 'RIGHT'.");
+				this.view.displayError(e);
+			}
 		}	
 	}
 }

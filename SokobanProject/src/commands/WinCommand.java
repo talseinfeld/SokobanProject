@@ -8,7 +8,7 @@ import view.View;
  * Notifying the client if the level had been won
  *
  */
-public class WinCommand extends SokobanCommand implements Command {
+public class WinCommand extends SokobanCommand {
 	
 	public WinCommand(Model model, View view) {
 		this.model = model;

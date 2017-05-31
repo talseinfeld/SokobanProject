@@ -54,7 +54,7 @@ public class MySokobanClientHandler extends Observable implements ClientHandler,
 				}
 			}
 			catch (Exception e) {
-				System.out.println("MySokobanClientHandler: Client disconnected.");
+				System.out.println("MySokobanClientHandler: Client disconnected. "+e.getMessage());
 			}
 		} 
 	}
@@ -127,10 +127,20 @@ public void stringCmdToLowerCase(String[] cmd) {
 	}
 
 	@Override
-	public void displayError(String error) {
-		serverOutToClient.write("Error: "+error);
+	public void displayError(Exception e) {
+		serverOutToClient.write("Error: "+e.getMessage());
 		serverOutToClient.println();
 		serverOutToClient.flush();
 	}
-
+	@Override
+	public void usernameDialog() {
+		// TODO ASCII username winning dialog 
+		
+	}
+	@Override
+	public void setLevelName(String levelName) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

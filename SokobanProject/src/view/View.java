@@ -5,8 +5,11 @@ import model.data.Level;
 public interface View {
 
 	public void displayLevel(Level level);
+	public void setLevelName(String levelName);
 	public void displayWin();
-	public void displayError(String error);
+	public void displayError(Exception e);
 	public void stop();
+	public void usernameDialog();
+	
 	
 }

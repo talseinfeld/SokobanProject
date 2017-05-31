@@ -56,6 +56,7 @@ public class MySokobanServer implements Server {
 	@Override
 	public void start() {
 		thread = new Thread(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					runServer();

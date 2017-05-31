@@ -83,6 +83,7 @@ public class MySokobanPolicy implements Policy {
 			if (gs.getGo() == null || gs.getGo().toString()!=new Box().toString())
 				return false;
 		}
+		level.setWonFlag(true);
 		return true;
 	}
 

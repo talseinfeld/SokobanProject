@@ -22,12 +22,16 @@ public class SaveCommand extends SaveLoadFactory {
 	@Override
 	public void execute() throws Exception {
 		//Throwing any exception we might get to to the main class so we can print the error to the client
-		if (this.params.isEmpty())
-			this.view.displayError("SaveCommand error: You didn't provide a file path, i.e: C:\\Levels\\myLevel.xml");
+		if (this.params.isEmpty()) {
+			Exception e = new Exception("SaveCommand error: You didn't provide a file path, i.e: C:\\Levels\\myLevel.xml");
+			this.view.displayError(e);
+		}
 		this.filePath = this.params.getFirst();
 		this.setFileExtension();
-		if (!extSavers.containsKey(fileExtension))
-			this.view.displayError("SaveCommand error: Please provied a file extension from the following: 'txt', 'obj', 'xml'.");
+		if (!extSavers.containsKey(fileExtension)) {
+			Exception e = new Exception("SaveCommand error: Please provied a file extension from the following: 'txt', 'obj', 'xml'.");
+			this.view.displayError(e);
+		}
 		extSavers.get(fileExtension).saveLevel(this.model.getCurrentLevel(), new FileOutputStream(filePath));
 	}
 }

@@ -8,18 +8,18 @@ import view.View;
  * Displaying the current level to the client.
  *
  */
-public class DisplayCommand extends SokobanCommand implements Command {
+public class DisplayCommand extends SokobanCommand {
 		
-	public DisplayCommand(Model m, View v) {
-		
-		this.model = m;
-		this.view = v;
-
+	public DisplayCommand(Model model, View view) {
+		this.model = model;
+		this.view = view;
 	}
 	@Override
 	public void execute() throws Exception {
-		if (this.model.getCurrentLevel()==null || this.model.getCurrentLevel().getSquares() == null)
-			this.view.displayError("DisplayCommand error: There is no level to display.");
+		if (this.model.getCurrentLevel()==null || this.model.getCurrentLevel().getSquares() == null) {
+			Exception e = new Exception("DisplayCommand error: There is no level to display.");
+			this.view.displayError(e);
+		}
 		this.view.displayLevel(this.model.getCurrentLevel());
 	}
 

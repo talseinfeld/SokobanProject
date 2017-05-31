@@ -2,6 +2,8 @@ package commands;
 
 import java.util.HashMap;
 
+import org.apache.commons.io.FilenameUtils;
+
 import model.data.LevelLoader;
 import model.data.LevelSaver;
 import model.data.MyObjectLevelLoader;
@@ -51,12 +53,13 @@ public abstract class SaveLoadFactory extends SokobanCommand {
 	public String getFileExtension() {
 		return fileExtension;
 	}
-	//Setting the file extension according to the full path given
-	//ASSUMING: filepath will be like: C:/Documents/SomeLevel.extension
+	//Setting the file extension given the full file's path
 	public void setFileExtension() {
 
-		int c = filePath.indexOf('.',0);
-		this.fileExtension = filePath.substring(c+1,filePath.length());
+//		int c = filePath.indexOf('.',0);
+//		this.fileExtension = filePath.substring(c+1,filePath.length());
+		//Using Apache library to extract the file extension
+		this.fileExtension = FilenameUtils.getExtension(filePath);
 	}
 	public HashMap<String, LevelLoader> getExtLoaders() {
 		return extLoaders;

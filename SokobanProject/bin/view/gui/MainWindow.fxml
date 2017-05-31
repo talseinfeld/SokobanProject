@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -10,6 +9,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TextField?>
+
 <?import view.gui.MySokobanLevelDisplayer?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.gui.MainWindowController">
@@ -20,6 +22,7 @@
             <items>
               <MenuItem mnemonicParsing="false" onAction="#openFile" text="Load level" />
                   <MenuItem mnemonicParsing="false" onAction="#save" text="Save level" />
+                  <MenuItem mnemonicParsing="false" onAction="#openScoreboard" text="Highscore" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -42,17 +45,32 @@
          </children>
       </VBox>
    </left>
-	<center>
+	<center> 
 		<MySokobanLevelDisplayer fx:id="levelDisplayer"
-			height="500" width="500" BorderPane.alignment="CENTER"
-			wallFilename="./resources/Wall_Brown.png" boxFilename="./resources/Crate_Brown.png"
-			characterFilename="./resources/Character4.png" goalSquareFilename="./resources/EndPoint_Red.png"
-			floorFilename="./resources/GroundGravel_Sand.png" winFilename="./resources/win.jpg" />
+		height="500" width="500" BorderPane.alignment="CENTER"
+		wallFilename="./resources/Wall_Brown.png" boxFilename="./resources/Crate_Brown.png"
+		characterFilename="./resources/Character4.png" goalSquareFilename="./resources/EndPoint_Red.png"
+		floorFilename="./resources/GroundGravel_Sand.png" winFilename="./resources/win.jpg" />
 	</center>
    <bottom>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Label text="Status" />
+            <Label text="Time:" />
+            <Label fx:id="timeLabel" prefHeight="17.0" prefWidth="45.0" text="00:00">
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <Label prefWidth="37.0" text="Steps:">
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <Label fx:id="stepsLabel" prefHeight="17.0" prefWidth="45.0" text="0">
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
          </children>
       </HBox>
    </bottom>

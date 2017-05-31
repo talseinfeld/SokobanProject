@@ -2,6 +2,8 @@ package commands;
 
 import java.io.FileInputStream;
 
+import org.apache.commons.io.FilenameUtils;
+
 import model.Model;
 import view.View;
 /** @author Tal Sheinfeld
@@ -21,13 +23,23 @@ public class LoadCommand extends SaveLoadFactory {
 	@Override
 	public void execute() throws Exception {
 		//Throwing any exception we might get to to the main class so we can print the error to the client
-		if (this.params.isEmpty())
-			this.view.displayError("LoadCommand error: You didn't provide a file path, i.e: C:\\Levels\\level1.txt");
+		if (this.params.isEmpty()) {
+			Exception e = new Exception("LoadCommand error: You didn't provide a file path, i.e: C:\\Levels\\level1.txt");
+			this.view.displayError(e);
+		}
 		this.filePath = this.params.getFirst();
 		this.setFileExtension();
-		if (!(extLoaders.containsKey(fileExtension)))
-			this.view.displayError("LoadCommand error: Please provied a file extension from the following: 'txt', 'obj', 'xml'.");
+		if (!(extLoaders.containsKey(fileExtension))) {
+			Exception e = new Exception("LoadCommand error: Please provied a file extension from the following: 'txt', 'obj', 'xml'.");
+			this.view.displayError(e);
+		}
 		this.model.setLevel(extLoaders.get(fileExtension).loadLevel(new FileInputStream(filePath)));
-	
+		if (model.getCurrentLevel().getLevelName()==null) {
+			//TODO - normalizeNoEndSeperators
+			String levelName = FilenameUtils.getName(filePath);
+			levelName = FilenameUtils.removeExtension(levelName);
+			model.getCurrentLevel().setLevelName(levelName); 
+		}
+		view.setLevelName(model.getCurrentLevel().getLevelName());
 	}
 }
