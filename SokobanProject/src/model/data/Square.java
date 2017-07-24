@@ -48,4 +48,15 @@ public class Square implements Serializable{
 		this.position = position;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		Square s = (Square) o;
+		return position.equals(s.position);
+	}
+	
+	@Override
+	public int hashCode() {
+		return position.hashCode();
+	}
+	
 }

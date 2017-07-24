@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import common.Direction;
 import model.data.Box;
+import model.data.Character;
+import model.data.GameObject;
 import model.data.GoalSquare;
 import model.data.Level;
 /** 
@@ -18,6 +20,13 @@ import model.data.Level;
  * */
 public class MySokobanPolicy implements Policy {
 
+	private Level level;
+
+	public MySokobanPolicy() {}
+
+	public MySokobanPolicy(Level level) {
+		this.level = level;
+	}
 	//Assuming each step is only one step
 	@Override
 	public void setPointToADirection(Point p, Direction direction) {
@@ -37,24 +46,24 @@ public class MySokobanPolicy implements Policy {
 		default:
 			break;
 		}
-		
 	}
-	
+
 
 	@Override
-	public void move(Level level, Direction direction) {
-		
+	public boolean move(Level level, Direction direction) {
+
 		Point from = level.getCharacterSquare().getPosition();
 		//setting the position from our Player according to a given direction
 		Point to = new Point(from);
 		setPointToADirection(to, direction);
-		
+
 		//Checking if the Square in the given direction has nothing in it.
 		//In other words: It's either a blank or a GoalSquare with no Boxes in it.
 		if (level.getSquareAtPoint(to).getGo() == null) {
 			level.moveToSquare(from, to);
 			level.setCharacterSquareAtPoint(to);
 			level.incStepsCounter(1);
+			return true;
 		}
 		//Checking if the Square in the given direction has Box in it
 		if (level.getSquareAtPoint(to).getGo().toString() == new Box().toString()) {
@@ -70,12 +79,13 @@ public class MySokobanPolicy implements Policy {
 				level.moveToSquare(from, to);
 				level.setCharacterSquareAtPoint(to);
 				level.incStepsCounter(1);
+				return true;
 			}
 		}
-			
+		return false;
+
 	}
 
-	//TODO - think how to improve time complexity less then O(n) {n=goalSquares}
 	@Override
 	public Boolean isWon(Level level) {
 		ArrayList<GoalSquare> goalSquares = level.getGoalSquares();
@@ -83,9 +93,53 @@ public class MySokobanPolicy implements Policy {
 			if (gs.getGo() == null || gs.getGo().toString()!=new Box().toString())
 				return false;
 		}
-		level.setWonFlag(true);
+		level.setWonFlag(true);		
 		return true;
 	}
+
+	@Override
+	public boolean isGameObjectMovabaleTo(Point from, Direction direction) {
+
+		GameObject go = level.getSquareAtPoint(from).getGo();
+		if (go != null) {
+			if (go.toString().equals(new Character().toString())) {
+				Point to = new Point(from);
+				setPointToADirection(to, direction);
+				if (level.getSquareAtPoint(to).getGo() == null) 
+					return true;
+			}
+
+			else if (go.toString().equals(new Box().toString())) {
+				Point to = new Point(from);
+				setPointToADirection(to, direction);
+				Point oneBeforeFrom = new Point(from);
+				switch (direction.toString()) {
+				case "UP":
+					setPointToADirection(oneBeforeFrom, Direction.DOWN);
+					if (level.getSquareAtPoint(oneBeforeFrom).getGo() == null &&
+							level.getSquareAtPoint(to).getGo() == null)
+						return true;
+				case "DOWN":
+					setPointToADirection(oneBeforeFrom, Direction.UP);
+					if (level.getSquareAtPoint(oneBeforeFrom).getGo() == null &&
+							level.getSquareAtPoint(to).getGo() == null)
+						return true;
+				case "LEFT":
+					setPointToADirection(oneBeforeFrom, Direction.RIGHT);
+					if (level.getSquareAtPoint(oneBeforeFrom).getGo() == null &&
+							level.getSquareAtPoint(to).getGo() == null)
+						return true;
+				case "RIGHT":
+					setPointToADirection(oneBeforeFrom, Direction.LEFT);
+					if (level.getSquareAtPoint(oneBeforeFrom).getGo() == null &&
+							level.getSquareAtPoint(to).getGo() == null)
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+
 
 }
 

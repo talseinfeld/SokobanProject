@@ -142,5 +142,15 @@ public void stringCmdToLowerCase(String[] cmd) {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void solve() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void hint() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

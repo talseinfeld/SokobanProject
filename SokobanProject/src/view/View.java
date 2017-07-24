@@ -10,6 +10,8 @@ public interface View {
 	public void displayError(Exception e);
 	public void stop();
 	public void usernameDialog();
+	public void solve();
+	public void hint();
 	
 	
 }

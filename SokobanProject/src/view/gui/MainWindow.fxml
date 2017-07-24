@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.control.TextField?>
 
+ 
 <?import view.gui.MySokobanLevelDisplayer?>
+
 
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.gui.MainWindowController">
    <top>
@@ -41,11 +41,13 @@
          <children>
             <Button mnemonicParsing="false" onAction="#openFile" prefHeight="25.0" prefWidth="60.0" text="Load" />
             <Button mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="60.0" text="Save" />
+            <Button mnemonicParsing="false" onAction="#hint" prefHeight="25.0" prefWidth="60.0" text="Hint" />
+            <Button mnemonicParsing="false" onAction="#solve" prefHeight="25.0" prefWidth="60.0" text="Solve" />
             <Button mnemonicParsing="false" onAction="#stop" prefHeight="25.0" prefWidth="60.0" text="Quit" />
          </children>
       </VBox>
    </left>
-	<center> 
+	<center>
 		<MySokobanLevelDisplayer fx:id="levelDisplayer"
 		height="500" width="500" BorderPane.alignment="CENTER"
 		wallFilename="./resources/Wall_Brown.png" boxFilename="./resources/Crate_Brown.png"

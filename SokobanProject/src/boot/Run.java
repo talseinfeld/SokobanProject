@@ -27,7 +27,7 @@ public class Run extends Application {
 			MySokobanClientHandler ch = new MySokobanClientHandler();
 			//Initializing our server with the port we will get in the command console
 			Server server = new MySokobanServer(Integer.parseInt(args[1]), ch);
-			MySokobanModel model = new MySokobanModel(new MySokobanPolicy());
+			MySokobanModel model = new MySokobanModel(new MySokobanPolicy(), 5555);
 			Controller controller = new MySokobanController(model, ch, server);
 			model.addObserver(controller);
 			ch.addObserver(controller);
@@ -38,16 +38,13 @@ public class Run extends Application {
 				ch.displayError(e);
 			}
 		}
-		else { 
-			if(args.length==0) {
-				launch(args);
-			}
-			else {
-				System.out.println("1) To run the server: In the command line type the string '-server' followed by the server's port");
-				System.out.println("2) To run the GUI - Don't add any parameters. Just run the program.");
-			}
-		}
+		else launch(args);
+		//			else {
+		//				System.out.println("1) To run the server: In the command line type the string '-server' followed by the server's port");
+		//				System.out.println("2) To run the GUI - Don't add any parameters. Just run the program.");
+		//			}
 	}
+
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -55,7 +52,7 @@ public class Run extends Application {
 			FXMLLoader fxl = new FXMLLoader(getClass().getResource("/view/gui/MainWindow.fxml"));
 			BorderPane root = fxl.load();
 			MainWindowController mwc=fxl.getController();
-			MySokobanModel m=new MySokobanModel(new MySokobanPolicy());
+			MySokobanModel m=new MySokobanModel(new MySokobanPolicy(), 5555);
 			Controller c=new MySokobanController(m, mwc);
 			m.addObserver(c);
 			mwc.addObserver(c);

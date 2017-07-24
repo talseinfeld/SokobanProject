@@ -10,4 +10,7 @@ public interface Model {
 	public void saveToDb(String levelName, String username);
 	public Level getCurrentLevel();
 	public Boolean isWon();	
+	public void solveLevel();
+	public void hint();
+	
 }

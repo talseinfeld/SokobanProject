@@ -13,7 +13,7 @@ public class Level implements Serializable {
 	//**********Level Members********************/
 	
 	private ArrayList<GoalSquare> goalSquares = new ArrayList<>();
-	private Square characterSquare = new Square();
+	private Square characterSquare;
 	private String levelName;
 	private int stepsCounter, timeCounter;
 	private int maxY, maxX;
@@ -30,6 +30,7 @@ public class Level implements Serializable {
 	{
 		stepsCounter = 0; setTimeCounter(0);
 		setSquares(squares);
+		characterSquare = new Square();
 		initLevel();
 	}
 	public Level() {//default c'tor
@@ -39,7 +40,6 @@ public class Level implements Serializable {
 
 	//moving a game object from a position to another position
 	public void moveToSquare(Point from, Point to) { 
-		
 		this.squares.get(to.y).get(to.x).setGo(this.squares.get(from.y).get(from.x).getGo());
 		this.squares.get(to.y).get(to.x).setPosition(to);
 		this.squares.get(from.y).get(from.x).setGo(null);
@@ -132,5 +132,15 @@ public class Level implements Serializable {
 	public void setTimeCounter(int timeCounter) {
 		this.timeCounter = timeCounter;
 	}
-	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (ArrayList<Square> arrayList : squares) {
+			for (Square square : arrayList) {
+				sb.append(square.toString());
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
 }

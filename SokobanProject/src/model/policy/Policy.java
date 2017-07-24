@@ -9,8 +9,9 @@ import model.data.Level;
  *  */
 public interface Policy {
 	
-	public void move(Level level, Direction direction);
+	public boolean move(Level level, Direction direction);
 	public void setPointToADirection(Point p, Direction direction);
 	public Boolean isWon(Level level);
+	public boolean isGameObjectMovabaleTo(Point from, Direction direction);
 	
 }

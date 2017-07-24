@@ -104,7 +104,6 @@ public class MainWindowController extends Observable implements View, Initializa
 		bindVariables();
 		levelDisplayer.addEventFilter(MouseEvent.MOUSE_CLICKED, (e)->levelDisplayer.requestFocus());
 		levelDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() {
-			//TODO - add the feature for clients to choose their own keys
 			@Override
 			public void handle(KeyEvent event) {
 				setStepsCounter(level.getStepsCounter());
@@ -243,7 +242,7 @@ public class MainWindowController extends Observable implements View, Initializa
 		notifyObservers(params);
 		Platform.exit();
 	}
-	//TODO - take this hard coded Mp3 setter and put in the FXML
+
 	public void setMediaPlayer() {
 		this.mPlayer = new MediaPlayer(new Media(new File("./resources/5yt.mp3").toURI().toString()));
 		this.mPlayer.setOnEndOfMedia(new Runnable() {
@@ -308,5 +307,21 @@ public class MainWindowController extends Observable implements View, Initializa
 	
 	public void setStepsCounter(Integer stepsCounter) {
 		this.stepsCounter.set(stepsCounter);
+	}
+
+	@Override
+	public void solve() {
+		List<String> params = new LinkedList<>();
+		params.add("solve");
+		this.setChanged();
+		this.notifyObservers(params);
+	}
+
+	@Override
+	public void hint() {
+		List<String> params = new LinkedList<>();
+		params.add("hint");
+		this.setChanged();
+		this.notifyObservers(params);
 	}
 }

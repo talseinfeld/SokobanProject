@@ -6,11 +6,13 @@ import java.util.Observable;
 
 import commands.Command;
 import commands.DisplayCommand;
+import commands.HintCommand;
 import commands.LoadCommand;
 import commands.MoveCommand;
 import commands.SafeExitCommand;
 import commands.SaveCommand;
 import commands.SaveStatsToDbCommand;
+import commands.SolveLevelCommand;
 import commands.WinCommand;
 import controller.server.Server;
 import model.Model;
@@ -57,6 +59,8 @@ public class MySokobanController implements Controller {
 		this.commands.put("exit", new SafeExitCommand(controller));
 		this.commands.put("win", new WinCommand(this.model, this.view));
 		this.commands.put("username", new SaveStatsToDbCommand(this.model, this.view));
+		this.commands.put("solve", new SolveLevelCommand(this.model, this.view));
+		this.commands.put("hint", new HintCommand(this.model, this.view));
 	}
 	
 	@Override

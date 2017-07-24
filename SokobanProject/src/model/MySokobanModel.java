@@ -2,6 +2,7 @@ package model;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Observable;
 
 import common.Direction;
@@ -17,9 +18,11 @@ public class MySokobanModel extends Observable implements Model {
 	private Policy policy;
 	private MyDatabaseManager dbm;
 	private EntityDB entityDb;
-		
-	public MySokobanModel(Policy policy) {
+	private int port;
+
+	public MySokobanModel(Policy policy, int port) {
 		this.policy = policy;
+		this.port = port;
 		dbm = MyDatabaseManager.getInstance();
 	}
 
@@ -28,7 +31,7 @@ public class MySokobanModel extends Observable implements Model {
 		//isWin(Level level) is defined in Policy class - Policy dictates the game rules
 		return this.policy.isWon(this.level);
 	}
-	
+
 	@Override
 	public void move(Direction direction) {
 		/*
@@ -65,17 +68,86 @@ public class MySokobanModel extends Observable implements Model {
 		this.setChanged();
 		this.notifyObservers(arg);		
 	}
-	
+
 	@Override
 	public void saveToDb(String levelName, String username) {
 		entityDb = new ScoreboardDB(levelName, username, level.getStepsCounter(),level.getTimeCounter());
 		dbm.save(entityDb);
 	}
+
+	@Override
+	public void solveLevel() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				solve();
+			}
+		}).start();
+
+	}
+
+	private void solve() {
+		Client client = new Client();
+		client.start("localhost", port, level);
+		char[] solArr = client.getSolution().toCharArray();
+		String[] solution = parseSolution(solArr);
+		for (String sol : solution) {
+			try {
+				if(!sol.equals("")) {
+					move(Direction.valueOf(sol));			
+					Thread.sleep(300);
+				}
+			} catch (InterruptedException e) {}
+		}
+	}
+	private String[] parseSolution(char[] solArr) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0;i<solArr.length;i++) {
+			if (solArr[i] == 'u') { 
+				sb.append("UP,");
+			} else if(solArr[i] == 'd') {
+				sb.append("DOWN,");
+			} else if(solArr[i] == 'l') {
+				sb.append("LEFT,");
+			} else if(solArr[i] == 'r') {
+				sb.append("RIGHT,");
+			}
+		}
+		String[] parsedSolution = sb.toString().split(",");
+		return parsedSolution;
+	}
 	
+	@Override
+	public void hint() {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				getHalfSolution();
+			}
+		}).start();
+	}
+	private void getHalfSolution() {
+		Client client = new Client();
+		client.start("localhost", port, level);
+		char[] solArr = client.getSolution().toCharArray();
+		String[] solution = parseSolution(solArr);
+		
+		if (solution == null) // to avoid division by zero
+			return;
+		for (int i = 0;i<solution.length/2;i++) {
+			try {
+				if(!solution[i].equals("")) {
+					move(Direction.valueOf(solution[i]));			
+					Thread.sleep(300);
+				}
+			} catch (InterruptedException e) {}
+		}
+	}
 	//========Setters&Getters========//
 	@Override
 	public Level getCurrentLevel() {
 		return level;
 	}
+
 
 }
