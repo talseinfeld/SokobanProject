@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="322.0" prefWidth="176.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.milestone_5.SokobanServer.view.DashboardController">
+	 <children>
+        <Button fx:id="button" layoutX="21.0" layoutY="282.0" onAction="#handleButtonAction" prefHeight="26.0" prefWidth="134.0" text="Drop selected client" />
+      <ListView fx:id="myListView" layoutX="21.0" layoutY="38.0" prefHeight="235.0" prefWidth="134.0" />
+      <Text layoutX="40.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Connected Clients" />
+    </children>
+</AnchorPane>
